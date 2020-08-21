@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,9 +32,50 @@ namespace EmployeeManagement
         {
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(_config.GetConnectionString("EmployeeDbConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>(
+                    options =>
+                    {
+                        options.Password.RequiredLength = 5;
+                        options.Password.RequiredUniqueChars = 3;
+                    }
+                ).AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddMvc(option => option.EnableEndpointRouting = false).AddXmlSerializerFormatters();
+
+
+            //services.AddMvc(options => options.EnableEndpointRouting = false).AddXmlSerializerFormatters();
+            services.AddMvc(options =>
+            {               
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                options.EnableEndpointRouting = false;
+                options.Filters.Add(new AuthorizeFilter(policy));
+            }).AddXmlSerializerFormatters();
+
+
+            services.ConfigureApplicationCookie(options => 
+            {
+                options.AccessDeniedPath = new PathString("/Administration/AccessDenied");
+            });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete Role"));
+                //options.AddPolicy("EditRolePolicy", policy => policy.RequireClaim("Edit Role", "true"));
+                //options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete Role").RequireClaim("Create Role"));
+                //options.AddPolicy("EditRolePolicy", policy => policy.RequireClaim("Edit Role", "true")
+                //                                                     .RequireRole("Admin")
+                //                                                     .RequireRole("Super Admin"));
+
+                options.AddPolicy("EditRolePolicy", 
+                    policy => policy.RequireAssertion(context => 
+                    (context.User.IsInRole("Admin") && 
+                    context.User.HasClaim(claim => claim.Type == "Edit Role" && claim.Value == "true"))
+                    || 
+                    context.User.IsInRole("Super Admin")
+                ));
+
+                options.AddPolicy("AdminRolePolicy", policy => policy.RequireRole("Admin"));
+            });
+
             services.AddScoped<IEmployeeRepository, SqlEmployeeRepository>();
         }
 
