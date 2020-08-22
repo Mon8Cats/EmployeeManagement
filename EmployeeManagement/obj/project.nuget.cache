@@ -1,9 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "sgsIzbootPBCjMwqx48ChXX4SWmkDN2gcVqFlO9a0EmN8w2VnFWWVKSChlzvsAgH1Sv/IbGffgjzDVmozj3FnA==",
+  "dgSpecHash": "i4ikuSGLI2YKG9t2Ct3crwiqhj7HCRynEFy1iXNHJ1D9aVpRLeShpDHqC7ETi6Jnacs9DG3Kp0FGCsz4NqhTIQ==",
   "success": true,
   "projectFilePath": "C:\\SkProjects\\EmployeeManagement\\EmployeeManagement\\EmployeeManagement.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\stone\\.nuget\\packages\\microsoft.aspnetcore.authentication.facebook\\3.1.7\\microsoft.aspnetcore.authentication.facebook.3.1.7.nupkg.sha512",
+    "C:\\Users\\stone\\.nuget\\packages\\microsoft.aspnetcore.authentication.google\\3.1.7\\microsoft.aspnetcore.authentication.google.3.1.7.nupkg.sha512",
+    "C:\\Users\\stone\\.nuget\\packages\\microsoft.aspnetcore.authentication.microsoftaccount\\3.1.7\\microsoft.aspnetcore.authentication.microsoftaccount.3.1.7.nupkg.sha512",
+    "C:\\Users\\stone\\.nuget\\packages\\microsoft.aspnetcore.authentication.twitter\\3.1.7\\microsoft.aspnetcore.authentication.twitter.3.1.7.nupkg.sha512",
     "C:\\Users\\stone\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.1.7\\microsoft.aspnetcore.cryptography.internal.3.1.7.nupkg.sha512",
     "C:\\Users\\stone\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.1.7\\microsoft.aspnetcore.cryptography.keyderivation.3.1.7.nupkg.sha512",
     "C:\\Users\\stone\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\3.1.7\\microsoft.aspnetcore.identity.entityframeworkcore.3.1.7.nupkg.sha512",
